@@ -144,7 +144,25 @@ def draw_maze(screen):
     for row in range(len(maze_layout)):
         for col in range(len(maze_layout[row])):
             if maze_layout[row][col] == '#':
-                pygame.draw.rect(screen, BLUE, (col*BLOCK_SIZE, row*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE))
+                x = col * BLOCK_SIZE
+                y = row * BLOCK_SIZE
+                
+                # Check top neighbor
+                if row == 0 or col >= len(maze_layout[row-1]) or maze_layout[row-1][col] != '#':
+                    pygame.draw.line(screen, BLUE, (x, y), (x + BLOCK_SIZE, y), 3)
+                
+                # Check bottom neighbor
+                if row == len(maze_layout)-1 or col >= len(maze_layout[row+1]) or maze_layout[row+1][col] != '#':
+                    pygame.draw.line(screen, BLUE, (x, y + BLOCK_SIZE), (x + BLOCK_SIZE, y + BLOCK_SIZE), 3)
+                
+                # Check left neighbor
+                if col == 0 or maze_layout[row][col-1] != '#':
+                    pygame.draw.line(screen, BLUE, (x, y), (x, y + BLOCK_SIZE), 3)
+                
+                # Check right neighbor
+                if col == len(maze_layout[row])-1 or maze_layout[row][col+1] != '#':
+                    pygame.draw.line(screen, BLUE, (x + BLOCK_SIZE, y), (x + BLOCK_SIZE, y + BLOCK_SIZE), 3)
+            
             elif maze_layout[row][col] == '.':
                 pygame.draw.circle(screen, WHITE, (col*BLOCK_SIZE + BLOCK_SIZE//2, row*BLOCK_SIZE + BLOCK_SIZE//2), 3)
 
@@ -241,3 +259,4 @@ def main():
     pygame.quit()
 
 if __name__ == "__main__":
+    main()
